@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Admin Dashboard</h1>
+        </header>
+        <nav>
+            <a href="{{ url_for('admin_db') }}" class="button">Manage Database</a>
+            <a href="{{ url_for('admin_logout') }}" class="button">Log Out</a>
+        </nav>
+    </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Project</h1>
+        </header>
+        {% if current_user.is_authenticated %}
+            <p>You are already logged in as {{ current_user.username }}.</p>
+            <nav>
+                <a href="{{ url_for('dashboard') }}" class="button">Go to Dashboard</a>
+                <a href="{{ url_for('account') }}" class="button">Manage Account</a>
+                <a href="{{ url_for('logout') }}" class="button">Log Out</a>
+            </nav>
+        {% else %}
+            <nav>
+                <a href="{{ url_for('login') }}" class="button">Log In</a>
+                <b>OR</b>
+                <a href="{{ url_for('signup') }}" class="button">Sign Up</a>
+            </nav>
+        {% endif %}
+    </div>
+</body>
+</html>

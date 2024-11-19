@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>401 - Unauthorized</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>401</h1>
+        <p>Unauthorized: You must be logged in to view this page.</p>
+        <a href="{{ url_for('login') }}">Log In</a>
+    </header>
+</body>
+</html>

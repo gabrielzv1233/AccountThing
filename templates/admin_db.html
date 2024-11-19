@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Database</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Manage Database</h1>
+        </header>
+        <form method="post" id="user-form">
+            <div id="user-entries">
+                {% for user in users %}
+                    <div class="user-entry" id="user-entry-{{ user.id }}">
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <input type="text" name="username_{{ user.id }}" value="{{ user.username }}" class="input-fit-content">
+                        <input type="text" name="password_{{ user.id }}" value="{{ user.password }}" class="input-fit-content">
+                        <button type="button" onclick="markForDeletion({{ user.id }})" title="Delete" class="button-trash">🗑️</button>
+                    </div>
+                {% endfor %}
+            </div>
+            <input type="hidden" name="delete_ids" id="delete-ids" value="">
+            <button type="button" class="button-add" onclick="addNewEntry()">➕</button>
+            <button type="submit" class="button-apply">Apply Changes</button>
+        </form>
+    </div>
+    <script>
+        let newUserId = {{ users|length }} + 1; 
+        let deleteIds = []; 
+
+        
+        function addNewEntry() {
+            const userEntries = document.getElementById('user-entries');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'user-entry';
+            newEntry.innerHTML = `
+                <input type="hidden" name="user_id" value="new_${newUserId}">
+                <input type="text" name="username_new_${newUserId}" placeholder="New Username" class="input-fit-content">
+                <input type="text" name="password_new_${newUserId}" placeholder="New Password" class="input-fit-content">
+                <button type="button" onclick="markForDeletion('new_${newUserId}')" title="Delete" class="button-trash">🗑️</button>
+            `;
+            userEntries.appendChild(newEntry);
+            newUserId++;
+            updateInputWidths(); 
+        }
+
+        
+        function markForDeletion(userId) {
+            deleteIds.push(userId); 
+            document.getElementById(`user-entry-${userId}`).style.display = 'none'; 
+            document.getElementById('delete-ids').value = deleteIds.join(','); 
+        }
+
+        
+        function updateInputWidths() {
+            const usernameFields = document.querySelectorAll('input[name^="username_"]');
+            const passwordFields = document.querySelectorAll('input[name^="password_"]');
+
+            function setMaxWidth(fields) {
+                let maxWidth = 0;
+                fields.forEach(input => {
+                    const tempSpan = document.createElement('span');
+                    tempSpan.style.visibility = 'hidden';
+                    tempSpan.style.whiteSpace = 'pre';
+                    tempSpan.textContent = input.value || input.placeholder;
+                    document.body.appendChild(tempSpan);
+                    maxWidth = Math.max(maxWidth, tempSpan.offsetWidth);
+                    document.body.removeChild(tempSpan);
+                });
+                fields.forEach(input => {
+                    input.style.width = `${maxWidth + 10}px`;
+                });
+            }
+
+            setMaxWidth(usernameFields);
+            setMaxWidth(passwordFields);
+        }
+
+        updateInputWidths();
+
+        document.querySelectorAll('.input-fit-content').forEach(input => {
+            input.addEventListener('input', updateInputWidths);
+        });
+    </script>
+</body>
+</html>

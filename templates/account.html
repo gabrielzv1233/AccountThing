@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Account</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Account Settings</h1>
+        </header>
+        <form method="post">
+            <h2>Change Password</h2>
+            <input type="password" name="new_password" placeholder="New Password" required>
+            <button type="submit" name="update_password" class="button">Update Password</button>
+        </form>
+        <form method="post">
+            <h2>Delete Account</h2>
+            <button type="submit" name="delete_account" class="button">Delete Account</button>
+        </form>
+        <a href="{{ url_for('logout') }}" class="button">Log Out</a>
+    </div>
+</body>
+</html>
